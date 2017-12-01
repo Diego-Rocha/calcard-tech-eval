@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+docker exec diegotech_postgres_1 psql -U "diego_tech" -f $1

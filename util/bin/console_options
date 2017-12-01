@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if [  $# -eq 0 ]; then
+	echo "${ColorPurple}Função:${ColorOff}"
+	echo "${ColorGreen}[b]${ColorOff} - Build"
+	echo "   ${ColorBlue}[f/q]${ColorOff} - Full/Quick"
+	echo "${ColorGreen}[d]${ColorOff} - Docker"
+	echo "   ${ColorBlue}[u/d]${ColorOff} - Up/Down"
+	echo "${ColorGreen}[l]${ColorOff} - Limpar Base"
+
+	echo -n "Opção: "
+	read question
+else
+	question=$@
+fi
+shift
+echo
+if [[ "${question}" =~ ^b.* ]]; then
+	. util/bin/build ${question}
+elif [[ "${question}" =~ ^d.* ]]; then
+	. util/bin/docker_compose ${question}
+elif [[ "${question}" =~ ^l.* ]]; then
+	. util/bin/run_script_on_postgres "/docker-entrypoint-initdb.d/init.sql"
+else
+	showOpcaoInvalida
+fi

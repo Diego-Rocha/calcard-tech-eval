@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+. util/bin/mvn_color
+
+showHeader "Build"
+
+MVN_ARGS="-e -B -U"
+MVN_PROFILES="code-formatter,database-commons,database-postgres"
+MVN_CLEAN="clean"
+QUICK=0
+
+shift
+
+export MAVEN_OPTS="-Xmx1024m \
+ -Dorg.slf4j.simpleLogger.defaultLogLevel=warn \
+ -Dorg.slf4j.simpleLogger.levelInBrackets=true \
+ -Dorg.slf4j.simpleLogger.showThreadName=false \
+ -Dorg.slf4j.simpleLogger.showShortLogName=false \
+ -Dorg.slf4j.simpleLogger.log.com.github.wokier.maven.progress=info \
+ -Dorg.slf4j.simpleLogger.log.org.codehaus.mojo.versions=info \
+ -Dorg.slf4j.simpleLogger.log.org.codehaus.plexus.PlexusContainer=error \
+ -Dorg.slf4j.simpleLogger.log.org.hibernate=error \
+ -Dorg.slf4j.simpleLogger.log.org.flywaydb=error"
+
+if [ "$1" == "" ]; then
+	echo
+	echo "${ColorPurple}Compilação:${ColorOff}"
+	echo " ${ColorBlue}[f]${ColorOff} - Full"
+	echo " ${ColorBlue}[q]${ColorOff} - Quick"
+
+	echo -n "Opção: "
+	read question
+else
+	question=$1
+fi
+
+if [[ "${question}" =~ ^q.* ]]; then
+	MVN_CLEAN=""
+	QUICK=1
+	echo
+elif [[ "${question}" =~ ^f.* ]]; then
+	echo
+	MVN_PROFILES="${MVN_PROFILES},full"
+else
+	showOpcaoInvalida
+fi
+
+MVN_ARGS="${MVN_ARGS} -P ${MVN_PROFILES}"
+
+SECONDS=0;
+
+if [ "${QUICK}" = "0" ]; then
+	showHeader "Resolvendo Versões"
+	mvn_color versions:set ${MVN_ARGS}
+fi
+
+showHeader "Construindo Apps"
+mvn_color ${MVN_CLEAN} install ${MVN_ARGS}
+
+echo Tempo: $(date -u -d @${SECONDS} +"%T")

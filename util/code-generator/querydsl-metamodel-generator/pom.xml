@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<project
+		xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.diego.tech.util.code-generator</groupId>
+	<artifactId>querydsl-metamodel-generator</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>io.diego.tech.util</groupId>
+		<artifactId>code-generator</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<app.querydsl-metamodel.source.folder>${main.basedir}/lib/model/querydsl-metamodel/src/main/java-generated
+		</app.querydsl-metamodel.source.folder>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>clean-source-folder</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="clean-metamodel-folder">
+								<delete dir="${app.querydsl-metamodel.source.folder}"/>
+								<mkdir dir="${app.querydsl-metamodel.source.folder}"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.querydsl</groupId>
+				<artifactId>querydsl-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>jpa</id>
+						<goals>
+							<goal>jpa-export</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<targetFolder>${app.querydsl-metamodel.source.folder}</targetFolder>
+							<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+							<packages>
+								<package>io.diego.tech.model</package>
+								<package>io.diego.tech.dto</package>
+							</packages>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>${maven-antrun-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>com.querydsl</groupId>
+					<artifactId>querydsl-maven-plugin</artifactId>
+					<version>${querydsl-maven-plugin.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>io.diego.tech.lib.model</groupId>
+							<artifactId>entity</artifactId>
+							<version>${app.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>${app.database.dependency.groupId}</groupId>
+							<artifactId>${app.database.dependency.artifactId}</artifactId>
+							<version>${app.database.dependency.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>

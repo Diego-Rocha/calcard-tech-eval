@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.diego.tech.lib.model</groupId>
+	<artifactId>entity</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+
+	<parent>
+		<groupId>io.diego.tech.pom</groupId>
+		<artifactId>lib.model.pom</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.diego.tech.lib.util.code-generator</groupId>
+			<artifactId>entity-generator</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- @TODO ativar plugin tbm para o pacote 'validator'  -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.9</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<rules>
+						<rule>
+							<!-- @TODO mudar para validação por classe -->
+							<element>BUNDLE</element>
+							<!--<element>CLASS</element>-->
+							<limits>
+								<limit>
+									<counter>INSTRUCTION</counter>
+									<value>COVEREDRATIO</value>
+									<!-- @TODO subir metrica de cobertura periodicamente até chegar em 75% (0.75) -->
+									<minimum>0.30</minimum>
+								</limit>
+							</limits>
+						</rule>
+						<rule>
+							<element>METHOD</element>
+							<limits>
+								<limit>
+									<counter>COMPLEXITY</counter>
+									<value>TOTALCOUNT</value>
+									<maximum>20</maximum>
+								</limit>
+							</limits>
+						</rule>
+					</rules>
+					<includes>
+						<!-- for report goal -->
+						<include>io/diego/tech/business/*</include>
+						<!-- for check goal -->
+						<include>io.diego.tech.business.*</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

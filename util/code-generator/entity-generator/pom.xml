@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.diego.tech.lib.util.code-generator</groupId>
+	<artifactId>entity-generator</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>io.diego.tech.util</groupId>
+		<artifactId>code-generator</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<app.entity.source.folder>${main.basedir}/lib/model/entity/src/main/java-generated</app.entity.source.folder>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-filtered-config</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<overwrite>true</overwrite>
+							<outputDirectory>target/classes</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources-filtered/</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>clean-source-folder</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="1-clean-source-folder">
+								<delete dir="${app.entity.source.folder}"/>
+								<mkdir dir="${app.entity.source.folder}"/>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>invert-catalog-schema</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="2-invert-catalog-schema" if="${app.database.reveng.invert-catalog-schema}">
+
+								<property name="ant.regexp.regexpimpl"
+										  value="org.apache.tools.ant.util.regexp.JakartaOroRegexp"/>
+
+								<!-- (schema|catalog) => (schema|catalog)-copy -->
+								<replaceregexp flags="g">
+									<regexp pattern="([\-\ ])(schema|catalog)=\&quot;(.[^&quot;]*)\&quot;"/>
+									<substitution
+											expression="\1\2-copy=\&quot;\3\&quot;"/>
+									<fileset dir="${project.basedir}/target/classes/">
+										<include name="hibernate.reveng.*xml"/>
+									</fileset>
+								</replaceregexp>
+
+								<!-- schema-copy => catalog -->
+								<replaceregexp byline="true">
+									<regexp pattern="([\-\ ])(schema-copy)=\&quot;(.[^&quot;]*)\&quot;"/>
+									<substitution
+											expression="\1catalog=\&quot;\3\&quot;"/>
+									<fileset dir="${project.basedir}/target/classes/">
+										<include name="hibernate.reveng.*xml"/>
+									</fileset>
+								</replaceregexp>
+
+								<!-- catalog-copy => schema -->
+								<replaceregexp byline="true">
+									<regexp pattern="([\-\ ])(catalog-copy)=\&quot;(.[^&quot;]*)\&quot;"/>
+									<substitution
+											expression="\1schema=\&quot;\3\&quot;"/>
+									<fileset dir="${project.basedir}/target/classes/">
+										<include name="hibernate.reveng.*xml"/>
+									</fileset>
+								</replaceregexp>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>remove-catalog</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="3-remove-catalog" unless="${app.database.reveng.use-catalog}">
+								<!-- catalog|schema -->
+								<replaceregexp byline="true">
+									<regexp pattern="(match\-|foreign\-|\ )(catalog)=\&quot;(.[^&quot;]*)\&quot;"/>
+									<substitution
+											expression=""/>
+									<fileset dir="${project.basedir}/target/classes/">
+										<include name="hibernate.reveng.*xml"/>
+									</fileset>
+								</replaceregexp>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>remove-schema</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="4-remove-schema" unless="${app.database.reveng.use-schema}">>
+								<!-- catalog|schema -->
+								<replaceregexp byline="true">
+									<regexp pattern="(match\-|foreign\-|\ )(schema)=\&quot;(.[^&quot;]*)\&quot;"/>
+									<substitution
+											expression=""/>
+									<fileset dir="${project.basedir}/target/classes/">
+										<include name="hibernate.reveng.*xml"/>
+									</fileset>
+								</replaceregexp>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>change-case</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="5-change-case">
+
+								<property name="ant.regexp.regexpimpl"
+										  value="org.apache.tools.ant.util.regexp.JakartaOroRegexp"/>
+
+								<!-- change table and column to (L)ower or (U)pper -->
+								<replaceregexp flags="g">
+									<regexp pattern="([^param][\- ])name=\&quot;(.[^&quot;]*)\&quot;"/>
+									<substitution
+											expression="\1name=\&quot;\\${app.database.reveng.upper-or-lower}\2\\E\&quot;"/>
+									<fileset dir="${project.basedir}/target/classes/">
+										<include name="hibernate.reveng.*xml"/>
+									</fileset>
+								</replaceregexp>
+
+								<!-- change schema and catalog to (L)ower or (U)pper -->
+								<replaceregexp flags="g">
+									<regexp pattern="([\-\ ])(schema|catalog)=\&quot;(.[^&quot;]*)\&quot;"/>
+									<substitution
+											expression="\1\2=\&quot;\\${app.database.reveng.upper-or-lower}\3\\E\&quot;"/>
+									<fileset dir="${project.basedir}/target/classes/">
+										<include name="hibernate.reveng.*xml"/>
+									</fileset>
+								</replaceregexp>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-entities</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="6-generate-entities">
+								<property name="ant_classpath"
+										  refid="maven.plugin.classpath"/>
+								<path id="hibernatetool.path">
+									<pathelement path="${ant_classpath}"/>
+								</path>
+								<taskdef name="hibernatetool"
+										 classname="org.hibernate.tool.ant.HibernateToolTask"
+										 classpathref="hibernatetool.path"/>
+								<hibernatetool destdir="${app.entity.source.folder}">
+									<jdbcconfiguration
+											detectManytoMany="false"
+											detectOptimisticLock="true"
+											reversestrategy="io.diego.lib.reveng.CustomReverseEngineeringStrategy"
+											propertyfile="${project.basedir}/target/classes/hibernate.properties"
+											revengfile="${project.basedir}/target/classes/hibernate.reveng.xml"/>
+									<hbm2java
+											jdk5="true"
+											ejb3="true"/>
+								</hibernatetool>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>${maven-antrun-plugin.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.ant</groupId>
+							<artifactId>ant</artifactId>
+							<version>${ant.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.apache.ant</groupId>
+							<artifactId>ant-apache-oro</artifactId>
+							<version>${ant.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-tools</artifactId>
+							<version>${hibernate-tools.version}</version>
+							<exclusions>
+								<exclusion>
+									<artifactId>commons-logging</artifactId>
+									<groupId>commons-logging</groupId>
+								</exclusion>
+							</exclusions>
+						</dependency>
+						<dependency>
+							<groupId>io.diego.lib.commons</groupId>
+							<artifactId>hibernate-reveng-helper</artifactId>
+							<version>${app.master.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-api</artifactId>
+							<version>${slf4j.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.slf4j</groupId>
+							<artifactId>jcl-over-slf4j</artifactId>
+							<version>${slf4j.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>ch.qos.logback</groupId>
+							<artifactId>logback-core</artifactId>
+							<version>${logback.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>ch.qos.logback</groupId>
+							<artifactId>logback-classic</artifactId>
+							<version>${logback.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>${app.database.dependency.groupId}</groupId>
+							<artifactId>${app.database.dependency.artifactId}</artifactId>
+							<version>${app.database.dependency.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>io.diego.tech.util</groupId>
+							<artifactId>flyway</artifactId>
+							<version>${app.version}</version>
+							<type>pom</type>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+	</build>
+
+</project>

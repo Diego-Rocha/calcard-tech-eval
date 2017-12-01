@@ -1,0 +1,39 @@
+version: '2.1'
+services:
+  postgres:
+    restart: "no"
+    healthcheck:
+      test: "nc -z localhost 5432"
+      interval: 10s
+      timeout: 10s
+      retries: 100
+    volumes:
+     - ./volume/postgres_entrypoint/:/postgres_entrypoint
+     - ./volume/postgres_sql/:/docker-entrypoint-initdb.d
+  rest:
+    restart: "no"
+    healthcheck:
+      test: "/bin/bash -c \"</dev/tcp/localhost/8080\""
+      interval: 10s
+      timeout: 10s
+      retries: 100
+    environment:
+      JAVA_OPTS: "-Dspring.profiles.active=desenvolvimento,docker"
+    volumes:
+     - ./volume/springboot_entrypoint/:/springboot_entrypoint
+     - ./volume/springboot_data/:/springboot_data
+    depends_on:
+      postgres:
+        condition: service_healthy
+  nginx:
+    restart: "no"
+    healthcheck:
+      test: "nc -z nginx 80"
+      interval: 10s
+      timeout: 10s
+      retries: 100
+    volumes:
+     - ./volume/nginx_entrypoint/:/nginx_entrypoint
+    depends_on:
+      rest:
+        condition: service_healthy

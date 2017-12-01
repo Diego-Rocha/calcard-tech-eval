@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC
+        "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+    <schema-selection match-catalog="@app.database.default.schema@"
+                      match-schema="@app.database.default.schema@"/>
+
+    <!-- ***************************** -->
+    <!-- tabelas que devem ser geradas -->
+    <!-- ***************************** -->
+    <table-filter package="io.diego.tech.model" match-name="pessoa"/>
+	<table-filter package="io.diego.tech.model" match-name="estado_civil"/>
+
+    <!-- ************************************** -->
+    <!-- exclui todas as tabelas não declaradas -->
+    <!-- ************************************** -->
+
+    <table-filter match-name=".*" exclude="true"/>
+
+    <!-- ************************* -->
+    <!-- especificação das tabelas -->
+    <!-- ************************* -->
+
+	<table name="pessoa" catalog="@app.database.default.schema@" schema="@app.database.default.schema@">
+		<primary-key>
+			<generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+				<param name="sequence_name">pessoa_id_seq</param>
+			</generator>
+		</primary-key>
+		<column name="nome">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+		</column>
+	</table>
+
+	<table name="estado_civil" catalog="@app.database.default.schema@" schema="@app.database.default.schema@">
+		<primary-key>
+			<generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+				<param name="sequence_name">estado_civil_id_seq</param>
+			</generator>
+		</primary-key>
+		<column name="descricao">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+		</column>
+	</table>
+
+</hibernate-reverse-engineering>
+

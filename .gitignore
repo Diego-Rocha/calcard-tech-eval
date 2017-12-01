@@ -1,0 +1,15 @@
+#idea
+/.idea/
+*.iml
+
+#maven
+target/
+java-generated/
+
+#docker
+/util/docker/volume/postgres_sql/*
+/util/docker/volume/springboot_data/arquivos/*
+/util/docker/volume/springboot_entrypoint/jar/*
+
+#empty folder
+!/**/.gitkeep

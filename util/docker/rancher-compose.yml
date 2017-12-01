@@ -1,0 +1,44 @@
+version: '2'
+services:
+  postgres:
+    restart: always
+    retain_ip: true
+    scale: 1
+    health_check:
+      healthy_threshold: 2
+      response_timeout: 2000
+      port: 5432
+      unhealthy_threshold: 3
+      interval: 30000
+      strategy: recreate
+  rest:
+    volume_driver: rancher-nfs
+    restart: always
+    retain_ip: true
+    scale: 1
+    environment:
+      JAVA_OPTS: "-Dspring.profiles.active=homologacao,docker"
+    health_check:
+      healthy_threshold: 2
+      response_timeout: 2000
+      port: 8080
+      unhealthy_threshold: 3
+      interval: 30000
+      strategy: recreate
+volumes:
+  postgres_entrypoint:
+    driver: rancher-nfs
+    driver_opts:
+      export:
+  postgres_sql:
+    driver: rancher-nfs
+    driver_opts:
+      export:
+  springboot_data:
+    driver: rancher-nfs
+    driver_opts:
+      export:
+  springboot_entrypoint:
+    driver: rancher-nfs
+    driver_opts:
+      export:

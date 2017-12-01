@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+
+shift
+
+showHeader 'Docker'
+
+export PROJETO='diego_tech'
+export MODO='up'
+export SERVICES=''
+export REMOVE_VOLUME=''
+
+docker_mode(){
+	if [[ ${1} == '' ]]; then
+		echo
+		echo "${ColorPurple}Modo:${ColorOff}"
+		echo
+		echo "${ColorBlue}[u]${ColorOff} - Up"
+		echo "${ColorBlue}[d]${ColorOff} - Down"
+		echo -n 'Opção: '
+		read MODO_QUESTION
+	else
+		MODO_QUESTION=$1
+	fi
+
+	if [[ ${MODO_QUESTION} =~ ^u.* ]]; then
+		MODO='up'
+	elif [[ ${MODO_QUESTION} =~ ^d.* ]]; then
+		MODO='down'
+	else
+		showOpcaoInvalida
+	fi
+}
+
+docker_services(){
+	if [[ ${1} == '' ]]; then
+		echo
+		echo "${ColorPurple}Serviços:${ColorOff}"
+		echo
+		echo "${ColorBlue}[f]${ColorOff} - Full"
+		echo "${ColorBlue}[b]${ColorOff} - Basic (postgres)"
+		echo -n 'Opção: '
+		read SERVICE_QUESTION
+	else
+		SERVICE_QUESTION=$1
+	fi
+
+	if [[ ${SERVICE_QUESTION} =~ ^f.* ]]; then
+		SERVICES=''
+	elif [[ ${SERVICE_QUESTION} =~ ^b.* ]]; then
+		SERVICES='postgres'
+	else
+		showOpcaoInvalida
+	fi
+}
+
+docker_volume(){
+	if [[ ${1} == '' ]]; then
+		echo
+		echo "${ColorPurple}Volume:${ColorOff}"
+		echo
+		echo "${ColorBlue}[r]${ColorOff} - Remover"
+		echo "${ColorBlue}[n]${ColorOff} - Não Remover"
+		echo -n 'Opção: '
+		read VOLUME_QUESTION
+	else
+		VOLUME_QUESTION=$1
+	fi
+
+	if [[ ${VOLUME_QUESTION} =~ ^r.* ]]; then
+		REMOVE_VOLUME='-v'
+	elif [[ ${VOLUME_QUESTION} =~ ^n.* ]]; then
+		REMOVE_VOLUME=''
+	else
+		showOpcaoInvalida
+	fi
+}
+
+docker_pre_up(){
+	if [[ ${SERVICES} =~ .*postgres.* || ${SERVICES} == '' ]]; then
+		cp ./lib/common-resources/src/main/resources/db/migration/postgres/*.sql \
+			./util/docker/volume/postgres_sql/
+	fi
+
+	if [[ ${SERVICES} =~ .*rest.* || ${SERVICES} == '' ]]; then
+		cp ./app/target/diego-tech-rest-server.jar \
+			./util/docker/volume/springboot_entrypoint/jar/rest.jar
+	fi
+
+	grep -q -F '#INIT diego-tech#' /etc/hosts || echo '
+#INIT diego-tech#
+127.0.0.1       rest.localhost
+127.0.0.1       jsf.localhost
+#END diego-tech#' | sudo tee -a /etc/hosts > /dev/null
+}
+
+
+docker_mode $1
+
+if [ ${MODO} == 'up' ]; then
+	docker_services $2
+	docker_pre_up
+	docker-compose -p ${PROJETO} \
+		-f ./util/docker/docker-compose.yml \
+		-f ./util/docker/docker-compose.local.yml \
+		up -d ${SERVICES}
+elif [ ${MODO} == 'down' ]; then
+	docker_volume $2
+	docker-compose -p ${PROJETO} \
+		-f ./util/docker/docker-compose.yml \
+		-f ./util/docker/docker-compose.local.yml \
+		down ${REMOVE_VOLUME}
+
+else
+	showOpcaoInvalida
+fi

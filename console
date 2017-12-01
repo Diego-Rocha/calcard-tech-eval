@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+. util/bin/functions
+
+echo ${ColorOff}
+
+BANNER_SIZE=105
+TERMINAL_SIZE=$(tput cols)
+
+if [ "${TERMINAL_SIZE}" -ge "${BANNER_SIZE}" ]; then
+	echo ${ColorRed}
+	cat lib/common-resources/src/main/resources/banner.txt
+	echo ${ColorOff}
+fi
+
+. util/bin/console_options

@@ -1,0 +1,173 @@
+<project
+		xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.diego.tech.pom</groupId>
+	<artifactId>root.pom</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+
+	<developers>
+		<developer>
+			<id>diego</id>
+			<name>Diego Martins da Rocha</name>
+			<email>diego.rocha.br@gmail.com</email>
+		</developer>
+	</developers>
+
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>io.diego.lib</groupId>
+		<artifactId>master</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<properties>
+		<!-- -->
+		<app.version>0.1.0-SNAPSHOT</app.version>
+		<app.project.name>diego-tech</app.project.name>
+		<app.master.version>1.1.0-SNAPSHOT</app.master.version>
+		<!-- JSF -->
+		<rio-theme.version>3.1.3</rio-theme.version>
+		<commons-io.version>2.5</commons-io.version>
+		<commons-lang.version>2.6</commons-lang.version>
+		<!-- flyway -->
+		<flyway-plugin.version>4.1.2</flyway-plugin.version>
+		<!-- entity generator -->
+		<ant.version>1.9.7</ant.version>
+		<hibernate-tools.version>4.3.5.Final</hibernate-tools.version>
+		<slf4j.version>1.7.24</slf4j.version>
+		<logback.version>1.1.11</logback.version>
+		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+		<fixedformat4j.version>1.2.2</fixedformat4j.version>
+		<joda-time.version>2.9.9</joda-time.version>
+		<gson.version>2.8.0</gson.version>
+	</properties>
+
+	<modules>
+		<!--<module>app</module>-->
+		<module>lib</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- dependências locais -->
+			<dependency>
+				<groupId>io.diego.tech.lib.model</groupId>
+				<artifactId>entity</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.diego.tech.lib.model</groupId>
+				<artifactId>querydsl-metamodel</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.diego.tech.lib.core</groupId>
+				<artifactId>validator</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.diego.tech.lib.core</groupId>
+				<artifactId>service</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.diego.tech.lib.core</groupId>
+				<artifactId>token</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.diego.tech.lib.core</groupId>
+				<artifactId>rest</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.diego.tech.lib.core</groupId>
+				<artifactId>repository</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.diego.tech.lib.core</groupId>
+				<artifactId>properties</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.diego.tech.lib</groupId>
+				<artifactId>common-app-resources</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+
+			<!-- dependências externas -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${commons-lang.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-core</artifactId>
+				<version>${flyway-plugin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<profiles>
+		<profile>
+			<id>full</id>
+			<modules>
+				<module>util</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>database-commons</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<app.database.default.schema>diego_tech</app.database.default.schema>
+			</properties>
+		</profile>
+		<profile>
+			<id>database-postgres</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<app.database.name>postgres</app.database.name>
+				<app.database.catalog-or-schema-for-audit>schema</app.database.catalog-or-schema-for-audit>
+				<!-- driver  -->
+				<app.database.dependency.groupId>org.postgresql</app.database.dependency.groupId>
+				<app.database.dependency.artifactId>postgresql</app.database.dependency.artifactId>
+				<app.database.dependency.version>9.4.1212.jre7</app.database.dependency.version>
+				<!-- dev.connection -->
+				<app.database.connection.driver>org.postgresql.Driver</app.database.connection.driver>
+				<app.database.connection.dialect>org.hibernate.dialect.PostgreSQL9Dialect
+				</app.database.connection.dialect>
+				<app.database.connection.url>jdbc:postgresql://localhost:5432/diego_tech</app.database.connection.url>
+				<app.database.connection.username>diego_tech</app.database.connection.username>
+				<app.database.connection.password>123456</app.database.connection.password>
+				<!-- dev.reveng -->
+				<app.database.reveng.use-catalog>false</app.database.reveng.use-catalog>
+				<app.database.reveng.use-schema>true</app.database.reveng.use-schema>
+				<app.database.reveng.invert-catalog-schema>false</app.database.reveng.invert-catalog-schema>
+				<app.database.reveng.upper-or-lower>L</app.database.reveng.upper-or-lower>
+			</properties>
+		</profile>
+	</profiles>
+
+</project>

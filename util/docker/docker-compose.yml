@@ -1,0 +1,56 @@
+version: '2.1'
+services:
+  postgres:
+    image: postgres:9.6.3-alpine
+    cpu_quota: 50000
+    mem_limit: 1024M
+    memswap_limit: 2048M
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "diego_tech"
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_DB: "diego_tech"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_sql:/docker-entrypoint-initdb.d
+      - postgres_entrypoint:/postgres_entrypoint
+    entrypoint: "/postgres_entrypoint/entrypoint.sh"
+  rest:
+    image: openjdk:8-jre
+    cpu_quota: 75000
+    mem_limit: 1024M
+    memswap_limit: 2048M
+    expose:
+      - "8080"
+    environment:
+      JAR_FILE: "diego-tech.jar"
+      SERVER_PORT: "8080"
+    volumes:
+      - springboot_data:/springboot_data
+      - springboot_entrypoint:/springboot_entrypoint
+    entrypoint: "/springboot_entrypoint/entrypoint.sh"
+    depends_on:
+      - postgres
+  nginx:
+    image: nginx:1.13.3-alpine
+    cpu_shares: 128
+    cpu_quota: 25000
+    mem_limit: 128M
+    memswap_limit: 256M
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+     - nginx_entrypoint:/nginx_entrypoint
+    entrypoint: "/nginx_entrypoint/entrypoint.sh"
+    depends_on:
+      - rest
+volumes:
+  #relative/nfs
+  postgres_entrypoint:
+  postgres_sql:
+  springboot_data:
+  springboot_entrypoint:
+  #internal
+  postgres_data:
