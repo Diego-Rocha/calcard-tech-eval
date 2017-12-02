@@ -5,14 +5,14 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>lib.model.pom</artifactId>
+	<artifactId>model</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>io.diego.tech</groupId>
-		<artifactId>lib.pom</artifactId>
+		<artifactId>lib</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 

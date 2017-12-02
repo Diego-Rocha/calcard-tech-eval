@@ -5,19 +5,20 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>lib.pom</artifactId>
+	<artifactId>lib</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>io.diego.tech</groupId>
-		<artifactId>root.pom</artifactId>
+		<artifactId>tech</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 
 	<modules>
 		<module>common-resources</module>
+		<module>core</module>
 		<module>model</module>
 	</modules>
 

@@ -33,12 +33,27 @@
 			<meta attribute="use-in-equals">true</meta>
 			<meta attribute="use-in-tostring">true</meta>
 		</column>
+		<column name="estado" type="io.diego.tech.enums.EstadoBrasilEnum">
+			<meta attribute="scope-get">@javax.persistence.Enumerated(javax.persistence.EnumType.STRING) public</meta>
+		</column>
 	</table>
 
 	<table name="estado_civil" catalog="@app.database.default.schema@" schema="@app.database.default.schema@">
 		<primary-key>
 			<generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
 				<param name="sequence_name">estado_civil_id_seq</param>
+			</generator>
+		</primary-key>
+		<column name="descricao">
+			<meta attribute="use-in-equals">true</meta>
+			<meta attribute="use-in-tostring">true</meta>
+		</column>
+	</table>
+
+	<table name="credito" catalog="@app.database.default.schema@" schema="@app.database.default.schema@">
+		<primary-key>
+			<generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+				<param name="sequence_name">dredito_id_seq</param>
 			</generator>
 		</primary-key>
 		<column name="descricao">

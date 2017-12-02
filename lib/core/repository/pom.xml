@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>repository</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>io.diego.tech</groupId>
+        <artifactId>core</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>io.diego.tech</groupId>
+            <artifactId>entity</artifactId>
+		</dependency>
+
+        <dependency>
+			<groupId>io.diego.tech</groupId>
+            <artifactId>querydsl-metamodel</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.diego.lib</groupId>
+			<artifactId>spring-data-service-generic</artifactId>
+		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.security</groupId>-->
+			<!--<artifactId>spring-security-core</artifactId>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>javax.servlet</groupId>-->
+			<!--<artifactId>javax.servlet-api</artifactId>-->
+			<!--<scope>provided</scope>-->
+		<!--</dependency>-->
+
+	</dependencies>
+
+
+</project>
