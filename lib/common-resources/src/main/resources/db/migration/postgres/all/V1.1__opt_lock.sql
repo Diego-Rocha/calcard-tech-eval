@@ -11,7 +11,7 @@ BEGIN
                        FROM information_schema.tables
                        WHERE
                          table_schema = v_root_schema
-                         AND table_name NOT IN ('schema_version', 'auditoria')) LOOP
+                         AND table_name NOT IN ('schema_version')) LOOP
 
     v_tmp_stmt := v_add_column_stmt;
     v_tmp_stmt := replace(v_tmp_stmt, '{{v_root_schema}}', v_root_schema);

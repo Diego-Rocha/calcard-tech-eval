@@ -12,6 +12,7 @@
 	<!-- ***************************** -->
 	<table-filter package="io.diego.tech.model" match-name="pessoa"/>
 	<table-filter package="io.diego.tech.model" match-name="estado_civil"/>
+	<table-filter package="io.diego.tech.model" match-name="credito"/>
 
 	<!-- ************************************** -->
 	<!-- exclui todas as tabelas não declaradas -->
@@ -53,7 +54,7 @@
 	<table name="credito" catalog="@app.database.default.schema@" schema="@app.database.default.schema@">
 		<primary-key>
 			<generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
-				<param name="sequence_name">dredito_id_seq</param>
+				<param name="sequence_name">credito_id_seq</param>
 			</generator>
 		</primary-key>
 		<column name="descricao">

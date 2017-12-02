@@ -27,7 +27,7 @@ public class PessoaValidator extends Validator<Pessoa> {
 				add(getNewRequiredField(pessoa.estado.getMetadata().getName()));
 				add(getNewRequiredField(pessoa.dependentes.getMetadata().getName()));
 				add(getNewRequiredField(pessoa.renda.getMetadata().getName()));
-				add(getNewRequiredField(pessoa.creditoId.getMetadata().getName()));
+				add(getNewRequiredField(pessoa.credito.getMetadata().getName()));
 			}
 		};
 	}

@@ -49,7 +49,7 @@
 	</properties>
 
 	<modules>
-		<!--<module>app</module>-->
+		<module>app</module>
 		<module>lib</module>
 	</modules>
 

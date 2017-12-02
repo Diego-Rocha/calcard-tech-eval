@@ -25,7 +25,7 @@ public interface PessoaRestController {
 	@ApiOperation("Adiciona uma noticia")
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(
-		path = PATH_ALL_PRIVATE,
+		path = PATH_ALL_PUBLIC,
 		method = RequestMethod.POST)
 	ResponseEntity<Pessoa> create(PessoaRestCadastroAnaliseCreditoDTO dto) throws ValidationException;
 
