@@ -5,14 +5,13 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.diego.tech.lib.util.code-generator</groupId>
 	<artifactId>entity-generator</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<parent>
-		<groupId>io.diego.tech.util</groupId>
+		<groupId>io.diego.tech</groupId>
 		<artifactId>code-generator</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
 	</parent>
@@ -245,7 +244,7 @@
 							</exclusions>
 						</dependency>
 						<dependency>
-							<groupId>io.diego.lib.commons</groupId>
+							<groupId>io.diego.lib</groupId>
 							<artifactId>hibernate-reveng-helper</artifactId>
 							<version>${app.master.version}</version>
 						</dependency>
@@ -275,7 +274,7 @@
 							<version>${app.database.dependency.version}</version>
 						</dependency>
 						<dependency>
-							<groupId>io.diego.tech.util</groupId>
+							<groupId>io.diego.tech</groupId>
 							<artifactId>flyway</artifactId>
 							<version>${app.version}</version>
 							<type>pom</type>

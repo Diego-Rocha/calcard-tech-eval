@@ -5,14 +5,13 @@
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.diego.tech.util.code-generator</groupId>
 	<artifactId>querydsl-metamodel-generator</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<parent>
-		<groupId>io.diego.tech.util</groupId>
+		<groupId>io.diego.tech</groupId>
 		<artifactId>code-generator</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
 	</parent>
@@ -79,7 +78,7 @@
 					<version>${querydsl-maven-plugin.version}</version>
 					<dependencies>
 						<dependency>
-							<groupId>io.diego.tech.lib.model</groupId>
+							<groupId>io.diego.tech</groupId>
 							<artifactId>entity</artifactId>
 							<version>${app.version}</version>
 						</dependency>

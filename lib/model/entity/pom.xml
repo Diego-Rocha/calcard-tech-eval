@@ -5,19 +5,18 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.diego.tech.lib.model</groupId>
 	<artifactId>entity</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
 	<parent>
-		<groupId>io.diego.tech.pom</groupId>
+		<groupId>io.diego.tech</groupId>
 		<artifactId>lib.model.pom</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
-			<groupId>io.diego.tech.lib.util.code-generator</groupId>
+			<groupId>io.diego.tech</groupId>
 			<artifactId>entity-generator</artifactId>
 			<version>0.1.0-SNAPSHOT</version>
 			<type>pom</type>
