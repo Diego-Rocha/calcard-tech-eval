@@ -2,7 +2,7 @@ package io.diego.tech.rest;
 
 import io.diego.lib.spring.validator.ValidationException;
 import io.diego.tech.dto.PessoaRestCadastroAnaliseCreditoDTO;
-import io.diego.tech.model.Pessoa;
+import io.diego.tech.enums.CreditoEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -27,6 +27,6 @@ public interface PessoaRestController {
 	@RequestMapping(
 		path = PATH_ALL_PUBLIC,
 		method = RequestMethod.POST)
-	ResponseEntity<Pessoa> create(PessoaRestCadastroAnaliseCreditoDTO dto) throws ValidationException;
+	ResponseEntity<CreditoEnum> create(PessoaRestCadastroAnaliseCreditoDTO dto) throws ValidationException;
 
 }

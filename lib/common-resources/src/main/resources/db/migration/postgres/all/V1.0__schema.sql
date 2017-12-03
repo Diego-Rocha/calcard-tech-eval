@@ -25,6 +25,7 @@ CREATE TABLE pessoa (
   dependentes     INTEGER                                                         NOT NULL DEFAULT 0,
   renda           NUMERIC(19, 2)                                                  NOT NULL,
   credito_id      BIGINT                                                          NOT NULL,
+  limite_credito  NUMERIC(19, 2)                                                  NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
   CONSTRAINT uk_pessoa UNIQUE (nome),
   CONSTRAINT fk_pessoa_estado_civil FOREIGN KEY (estado_civil_id) REFERENCES estado_civil (id),

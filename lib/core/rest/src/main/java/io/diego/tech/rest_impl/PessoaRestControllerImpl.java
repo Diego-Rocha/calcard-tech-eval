@@ -3,6 +3,7 @@ package io.diego.tech.rest_impl;
 import io.diego.lib.spring.validator.ValidationException;
 import io.diego.tech.business.PessoaBusiness;
 import io.diego.tech.dto.PessoaRestCadastroAnaliseCreditoDTO;
+import io.diego.tech.enums.CreditoEnum;
 import io.diego.tech.model.Pessoa;
 import io.diego.tech.rest.PessoaRestController;
 import io.diego.tech.service.PessoaService;
@@ -32,10 +33,11 @@ public class PessoaRestControllerImpl implements PessoaRestController {
 	}
 
 	@Override
-	public ResponseEntity<Pessoa> create(@Validated @RequestBody PessoaRestCadastroAnaliseCreditoDTO dto) throws ValidationException {
+	public ResponseEntity<CreditoEnum> create(@Validated @RequestBody PessoaRestCadastroAnaliseCreditoDTO dto) throws ValidationException {
 		Pessoa entity = PessoaBusiness.convert(dto);
 		Pessoa savedEntity = service.save(entity);
-		return new ResponseEntity<>(savedEntity, HttpStatus.CREATED);
+		CreditoEnum creditoEnum = CreditoEnum.getById(savedEntity.getCredito().getId());
+		return new ResponseEntity<>(creditoEnum, HttpStatus.CREATED);
 	}
 
 }

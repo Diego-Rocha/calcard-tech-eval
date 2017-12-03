@@ -1,13 +1,14 @@
 package io.diego.tech.dto;
 
 import io.diego.tech.enums.EstadoBrasilEnum;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PessoaRestCadastroAnaliseCreditoDTO {
 
 	private String nome;

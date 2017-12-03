@@ -2,6 +2,7 @@ package io.diego.tech.service_impl;
 
 import io.diego.lib.spring.data.service.generic.service.GenericServiceImpl;
 import io.diego.lib.spring.validator.ValidationException;
+import io.diego.tech.business.PessoaBusiness;
 import io.diego.tech.enums.CreditoEnum;
 import io.diego.tech.model.Credito;
 import io.diego.tech.model.Pessoa;
@@ -27,18 +28,14 @@ public class PessoaServiceImpl extends GenericServiceImpl<Pessoa, Long> implemen
 	}
 
 	@Getter(
-			onMethod = @__(@Override))
+		onMethod = @__(@Override))
 	private final PessoaValidator validator = new PessoaValidator();
 
 	@Transactional(
-			rollbackFor = Throwable.class)
+		rollbackFor = Throwable.class)
 	@Override
-	public <S extends Pessoa> S save(S entity) throws ValidationException {
-		// TODO implementar motor de aprovacao de credito
-		Credito credito = new Credito();
-		credito.setId(CreditoEnum.REPROVADO.getId());
-		entity.setCredito(credito);
-		//TODO remover código acima
+	public Pessoa save(Pessoa entity) throws ValidationException {
+		entity = PessoaBusiness.calcularCredito(entity);
 		entity = super.save(entity);
 		return entity;
 	}

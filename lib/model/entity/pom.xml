@@ -88,7 +88,7 @@
 									<counter>INSTRUCTION</counter>
 									<value>COVEREDRATIO</value>
 									<!-- @TODO subir metrica de cobertura periodicamente até chegar em 75% (0.75) -->
-									<minimum>0.30</minimum>
+									<minimum>0.75</minimum>
 								</limit>
 							</limits>
 						</rule>
