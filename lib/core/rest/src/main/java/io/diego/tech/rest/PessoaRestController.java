@@ -2,6 +2,7 @@ package io.diego.tech.rest;
 
 import io.diego.lib.spring.validator.ValidationException;
 import io.diego.tech.dto.PessoaRestCadastroAnaliseCreditoDTO;
+import io.diego.tech.dto.PessoaRestRetornoAnaliseCreditoDTO;
 import io.diego.tech.enums.CreditoEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,17 +17,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 	tags = "pessoa")
 public interface PessoaRestController {
 
-	String PATH_ALL_PRIVATE = "${app.security.path.private}/pessoas";
-	String PATH_ONE_PRIVATE = PATH_ALL_PRIVATE + "/{id}";
-
 	String PATH_ALL_PUBLIC = "${app.security.path.public}/pessoas";
-	String PATH_ONE_PUBLIC = PATH_ALL_PUBLIC + "/{id}";
 
-	@ApiOperation("Adiciona uma noticia")
+	@ApiOperation("Adiciona uma pessoa")
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(
 		path = PATH_ALL_PUBLIC,
 		method = RequestMethod.POST)
-	ResponseEntity<CreditoEnum> create(PessoaRestCadastroAnaliseCreditoDTO dto) throws ValidationException;
+	ResponseEntity<PessoaRestRetornoAnaliseCreditoDTO> create(PessoaRestCadastroAnaliseCreditoDTO dto) throws ValidationException;
+
+	@ApiOperation("Retorna uma pessoa pelo cpf")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(
+		path = PATH_ALL_PUBLIC + "/cpf/{cpf}",
+		method = RequestMethod.GET)
+	ResponseEntity<PessoaRestRetornoAnaliseCreditoDTO> getByCpf(String cpf);
 
 }

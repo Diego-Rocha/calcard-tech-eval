@@ -3,6 +3,7 @@ package io.diego.tech.rest_impl;
 import io.diego.lib.spring.validator.ValidationException;
 import io.diego.tech.business.PessoaBusiness;
 import io.diego.tech.dto.PessoaRestCadastroAnaliseCreditoDTO;
+import io.diego.tech.dto.PessoaRestRetornoAnaliseCreditoDTO;
 import io.diego.tech.enums.CreditoEnum;
 import io.diego.tech.model.Pessoa;
 import io.diego.tech.rest.PessoaRestController;
@@ -33,11 +34,20 @@ public class PessoaRestControllerImpl implements PessoaRestController {
 	}
 
 	@Override
-	public ResponseEntity<CreditoEnum> create(@Validated @RequestBody PessoaRestCadastroAnaliseCreditoDTO dto) throws ValidationException {
+	public ResponseEntity<PessoaRestRetornoAnaliseCreditoDTO> create(@Validated @RequestBody PessoaRestCadastroAnaliseCreditoDTO dto) throws ValidationException {
 		Pessoa entity = PessoaBusiness.convert(dto);
 		Pessoa savedEntity = service.save(entity);
-		CreditoEnum creditoEnum = CreditoEnum.getById(savedEntity.getCredito().getId());
-		return new ResponseEntity<>(creditoEnum, HttpStatus.CREATED);
+		PessoaRestRetornoAnaliseCreditoDTO dtoRetorno = service.findStatusByCpf(savedEntity.getCpf());
+		return new ResponseEntity<>(dtoRetorno, HttpStatus.CREATED);
+	}
+
+	@Override
+	public ResponseEntity<PessoaRestRetornoAnaliseCreditoDTO> getByCpf(String cpf) {
+		PessoaRestRetornoAnaliseCreditoDTO dtoRetorno = service.findStatusByCpf(cpf);
+		if (dtoRetorno == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(dtoRetorno, HttpStatus.OK);
 	}
 
 }

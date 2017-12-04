@@ -3,6 +3,7 @@ package io.diego.tech.service_impl;
 import io.diego.lib.spring.data.service.generic.service.GenericServiceImpl;
 import io.diego.lib.spring.validator.ValidationException;
 import io.diego.tech.business.PessoaBusiness;
+import io.diego.tech.dto.PessoaRestRetornoAnaliseCreditoDTO;
 import io.diego.tech.enums.CreditoEnum;
 import io.diego.tech.model.Credito;
 import io.diego.tech.model.Pessoa;
@@ -38,5 +39,10 @@ public class PessoaServiceImpl extends GenericServiceImpl<Pessoa, Long> implemen
 		entity = PessoaBusiness.calcularCredito(entity);
 		entity = super.save(entity);
 		return entity;
+	}
+
+	@Override
+	public PessoaRestRetornoAnaliseCreditoDTO findStatusByCpf(String cpf) {
+		return getRepository().findStatusByCpf(cpf);
 	}
 }

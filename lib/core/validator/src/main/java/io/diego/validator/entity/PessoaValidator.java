@@ -21,6 +21,7 @@ public class PessoaValidator extends Validator<Pessoa> {
 
 			{
 				add(getNewRequiredField(pessoa.nome.getMetadata().getName()));
+				add(getNewRequiredField(pessoa.cpf.getMetadata().getName()));
 				add(getNewRequiredField(pessoa.idade.getMetadata().getName()));
 				add(getNewRequiredField(pessoa.sexo.getMetadata().getName()));
 				add(getNewRequiredField(pessoa.estadoCivil.getMetadata().getName()));
@@ -38,7 +39,7 @@ public class PessoaValidator extends Validator<Pessoa> {
 			errors.rejectValue(pessoa.idade.getMetadata().getName(), ERROR_IDADE_OUT_OF_RANGE);
 		}
 		if (entity.getSexo() != 'M' && entity.getSexo() != 'F') {
-			errors.rejectValue(pessoa.idade.getMetadata().getName(), ERROR_SEXO_INVALID);
+			errors.rejectValue(pessoa.sexo.getMetadata().getName(), ERROR_SEXO_INVALID);
 		}
 	}
 

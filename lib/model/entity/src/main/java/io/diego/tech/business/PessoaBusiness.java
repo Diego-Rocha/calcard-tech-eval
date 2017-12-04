@@ -1,6 +1,7 @@
 package io.diego.tech.business;
 
 import io.diego.tech.dto.PessoaRestCadastroAnaliseCreditoDTO;
+import io.diego.tech.dto.PessoaRestRetornoAnaliseCreditoDTO;
 import io.diego.tech.enums.CreditoEnum;
 import io.diego.tech.enums.EstadoCivilEnum;
 import io.diego.tech.model.Credito;
@@ -17,6 +18,7 @@ public class PessoaBusiness {
 	public Pessoa convert(PessoaRestCadastroAnaliseCreditoDTO dto) {
 		Pessoa entity = new Pessoa();
 		entity.setNome(dto.getNome());
+		entity.setCpf(dto.getCpf());
 		entity.setIdade(dto.getIdade());
 		entity.setSexo(dto.getSexo());
 		if (dto.getEstadoCivilId() != null) {
@@ -31,15 +33,15 @@ public class PessoaBusiness {
 	}
 
 	public static Pessoa calcularCredito(Pessoa entity) {
-
-		CreditoEnum creditoEnum = calcularCredito2(entity);
+		entity.setLimiteCredito(BigDecimal.ZERO);
+		CreditoEnum creditoEnum = calcularCreditoEnum(entity);
 		Credito credito = new Credito();
 		credito.setId(creditoEnum.getId());
 		entity.setCredito(credito);
 		return entity;
 	}
 
-	private static CreditoEnum calcularCredito2(Pessoa entity) {
+	private static CreditoEnum calcularCreditoEnum(Pessoa entity) {
 		CreditoEnum creditoEnum = CreditoEnum.REPROVADO;
 		if (entity.getEstadoCivil().getId().equals(EstadoCivilEnum.DIVORCIADO.getId())) {
 			return creditoEnum;
@@ -102,5 +104,4 @@ public class PessoaBusiness {
 	private static boolean isNaFaixaDeCredito(BigDecimal limiteGastos, CreditoEnum creditoEnum) {
 		return limiteGastos.compareTo(creditoEnum.getFaixaInicio()) >= 0 && limiteGastos.compareTo(creditoEnum.getFaixaFim()) <= 0;
 	}
-
 }

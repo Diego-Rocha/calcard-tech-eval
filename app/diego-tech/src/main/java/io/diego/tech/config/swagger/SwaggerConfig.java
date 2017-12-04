@@ -5,18 +5,14 @@ import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiKey;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.ApiKeyVehicle;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -63,33 +59,19 @@ public class SwaggerConfig {
 		return docket;
 	}
 
-	@Profile("desenvolvimento")
-	@Bean
-	public Docket docketApiManagement() {
-		Docket docket = getNewDocket();
-		docket.groupName("management");
-		addFilterPaths(docket, managementPaths());
-		return docket;
-	}
-
 	private Docket getNewDocket() {
 		HashSet<String> mimeTypes = Sets.newHashSet("application/json");
 		Docket docket = new Docket(DocumentationType.SWAGGER_2);
 		docket.produces(mimeTypes);
 		docket.consumes(mimeTypes);
 		docket.useDefaultResponseMessages(false);
-		docket.securitySchemes(Arrays.asList(new ApiKey("Authorization", null, ApiKeyVehicle.HEADER.getValue())));
 		return docket;
-	}
-
-	private List<Predicate<String>> managementPaths() {
-		return Arrays.asList(regex(String.format("%s(\\/.*)?", managementPath)));
 	}
 
 	private void addApiInfo(Docket docket) {
 		ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
 		apiInfoBuilder.title(String.format("%s - API", appName));
-		apiInfoBuilder.description("O acesso a esta api é somente à usuários autenticados");
+		apiInfoBuilder.description("O acesso a esta api é aberta");
 		docket.apiInfo(apiInfoBuilder.build());
 	}
 

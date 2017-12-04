@@ -1,75 +1,26 @@
 package io.diego.tech.repository;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import io.diego.lib.spring.data.service.generic.repository.GenericRepository;
+import io.diego.tech.dto.PessoaRestRetornoAnaliseCreditoDTO;
+import io.diego.tech.dto.QPessoaRestRetornoAnaliseCreditoDTO;
 import io.diego.tech.model.Pessoa;
+import io.diego.tech.model.QCredito;
 import org.springframework.stereotype.Repository;
+
+import static io.diego.tech.model.QCredito.credito;
+import static io.diego.tech.model.QPessoa.pessoa;
 
 @Repository
 public interface PessoaRepository extends GenericRepository<Pessoa, Long> {
 
-	// default Noticia findOneWithFetch(Predicate predicate) {
-	// JPAQuery<Noticia> jpaQuery = new JPAQuery<>(getEntityMananger());
-	// jpaQuery.from(noticia);
-	// jpaQuery.innerJoin(noticia.edital, edital).fetchJoin();
-	// jpaQuery.innerJoin(edital.concurso, concurso).fetchJoin();
-	//
-	// jpaQuery.leftJoin(noticia.noticiaByArquivos, noticiaByArquivo).fetchJoin();
-	// jpaQuery.leftJoin(noticiaByArquivo.arquivo, arquivo).fetchJoin();
-	// jpaQuery.leftJoin(arquivo.noticiaByArquivos, noticiaByArquivo).fetchJoin();
-	//
-	// jpaQuery.where(predicate);
-	// return jpaQuery.fetchOne();
-	// }
-	//
-	// default List<Noticia> findAllWithFetch(Predicate predicate, Pageable pageable) {
-	// JPAQuery<NoticiaDTO> query = new JPAQuery<>(getEntityMananger());
-	// StringExpression titulo = noticia.titulo.substring(0, 70);
-	// StringExpression descricaoNoticia = noticia.descricao.substring(0, 70);
-	// query.select(new QNoticiaDTO(noticia.id, noticia.dataHora, titulo, descricaoNoticia, edital.descricao, noticia.publicado));
-	// query.from(noticia).fetchAll();
-	// query.innerJoin(noticia.edital, edital);
-	// query.innerJoin(edital.concurso, concurso);
-	// query.where(predicate);
-	// applyPagination(query, pageable);
-	// List<NoticiaDTO> list = query.fetch();
-	// return list.stream().map(NoticiaDTO::toEntity).collect(Collectors.toList());
-	// }
-	//
-	// default long countAllWithFetch(Predicate predicate) {
-	// JPAQuery<Noticia> query = new JPAQuery<>(getEntityMananger());
-	// query.from(noticia);
-	// query.innerJoin(noticia.edital, edital);
-	// query.where(predicate);
-	// return query.fetchCount();
-	// }
-	//
-	// @VhTransactional
-	// default void alterarStatusPublicacao(Noticia entity) {
-	// JPAUpdateClause jpaUpdateClause = new JPAUpdateClause(getEntityMananger(), noticia);
-	// jpaUpdateClause.set(noticia.publicado, entity.isPublicado());
-	// jpaUpdateClause.set(noticia.dataHoraPublicado, entity.getDataHoraPublicado());
-	// jpaUpdateClause.where(noticia.id.eq(entity.getId()));
-	// jpaUpdateClause.execute();
-	// }
-	//
-	// default List<NoticiaSimplesDTO> getListaSimplesBySituacaoIsTrueAndPublicadoIsTrueAndEditalId(Long editalId) {
-	// JPAQuery<NoticiaSimplesDTO> query = new JPAQuery<>(getEntityMananger());
-	// query.select(new QNoticiaSimplesDTO(noticia.id, noticia.titulo, noticia.descricao));
-	// query.from(noticia);
-	// query.where(noticia.edital.id.eq(editalId));
-	// query.where(noticia.situacao.isTrue());
-	// query.where(noticia.publicado.isTrue());
-	// query.orderBy(noticia.dataHora.desc());
-	// return query.fetch();
-	// }
-	//
-	// default List<ArquivoDTO> getListaArquivoByNoticiaId(Long noticiaId) {
-	// JPAQuery<ArquivoDTO> query = new JPAQuery<>(getEntityMananger());
-	// query.select(new QArquivoDTO(arquivo.id, arquivo.titulo, arquivo.nomeOriginal, arquivo.hashMd5));
-	// query.from(noticiaByArquivo);
-	// query.innerJoin(noticiaByArquivo.arquivo, arquivo);
-	// query.where(noticiaByArquivo.noticia.id.eq(noticiaId));
-	// return query.fetch();
-	// }
+	default PessoaRestRetornoAnaliseCreditoDTO findStatusByCpf(String cpf) {
+		JPAQuery<PessoaRestRetornoAnaliseCreditoDTO> query = new JPAQuery<>(getEntityMananger());
+		query.select(new QPessoaRestRetornoAnaliseCreditoDTO(pessoa.cpf, pessoa.nome, pessoa.limiteCredito, credito.aprovado, credito.descricao));
+		query.from(pessoa);
+		query.innerJoin(pessoa.credito, credito);
+		query.where(pessoa.cpf.eq(cpf));
+		return query.fetchFirst();
+	}
 
 }

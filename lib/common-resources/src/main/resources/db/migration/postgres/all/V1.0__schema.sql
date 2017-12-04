@@ -18,6 +18,7 @@ CREATE TABLE credito (
 CREATE TABLE pessoa (
   id              BIGSERIAL,
   nome            VARCHAR(255)                                                    NOT NULL,
+  cpf             VARCHAR(14)                                                     NOT NULL,
   idade           INTEGER CHECK (idade BETWEEN 1 AND 200)                         NOT NULL,
   sexo            CHAR(1) CHECK (sexo IN ('M', 'F'))                              NOT NULL DEFAULT 'M',
   estado_civil_id BIGINT                                                          NOT NULL,
@@ -27,7 +28,7 @@ CREATE TABLE pessoa (
   credito_id      BIGINT                                                          NOT NULL,
   limite_credito  NUMERIC(19, 2)                                                  NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
-  CONSTRAINT uk_pessoa UNIQUE (nome),
+  CONSTRAINT uk_pessoa UNIQUE (cpf),
   CONSTRAINT fk_pessoa_estado_civil FOREIGN KEY (estado_civil_id) REFERENCES estado_civil (id),
   CONSTRAINT fk_pessoa_credito FOREIGN KEY (credito_id) REFERENCES credito (id)
 );

@@ -7,43 +7,40 @@ import io.diego.tech.enums.CreditoEnum;
 import io.diego.tech.enums.EstadoBrasilEnum;
 import io.diego.tech.enums.EstadoCivilEnum;
 import io.diego.tech.model.Pessoa;
-import lombok.Getter;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class PessoaBusinessTest extends BaseTest<PessoaBusiness> {
 
-	private static Map<Pessoa, CreditoEnum> tabularData = new LinkedHashMap<>();
+	private static Map<Pessoa, CreditoEnum> tabularTestData = new LinkedHashMap<>();
 
 	static {
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Lucas", 28, 'M', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SC, 0, new BigDecimal("2500"))), CreditoEnum.ENTRE_500_1000);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Ana", 17, 'F', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SP, 0, new BigDecimal("1000"))), CreditoEnum.ENTRE_100_500);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Pedro", 68, 'M', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.SC, 3, new BigDecimal("8000"))), CreditoEnum.ENTRE_1500_2000);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Paula", 61, 'F', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.RJ, 3, new BigDecimal("5000"))), CreditoEnum.ENTRE_1000_1500);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("João", 56, 'M', EstadoCivilEnum.DIVORCIADO.getId(), EstadoBrasilEnum.RJ, 2, new BigDecimal("2000"))), CreditoEnum.REPROVADO);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Maria", 45, 'F', EstadoCivilEnum.DIVORCIADO.getId(), EstadoBrasilEnum.SP, 1, new BigDecimal("2000"))), CreditoEnum.REPROVADO);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("José", 30, 'M', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.MA, 2, new BigDecimal("8000"))), CreditoEnum.SUPERIOR_2000);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Dinae", 33, 'F', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.SP, 1, new BigDecimal("10000"))), CreditoEnum.SUPERIOR_2000);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Marcos", 19, 'M', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SC, 1, new BigDecimal("400"))), CreditoEnum.RENDA_BAIXA);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Suzan", 63, 'F', EstadoCivilEnum.VIUVA.getId(), EstadoBrasilEnum.MA, 3, new BigDecimal("1500"))), CreditoEnum.REPROVADO);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Luci", 28, 'F', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SC, 2, new BigDecimal("2500"))), CreditoEnum.ENTRE_100_500);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Roberto", 16, 'M', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SP, 0, new BigDecimal("500"))), CreditoEnum.RENDA_BAIXA);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Bruno", 30, 'M', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.MA, 5, new BigDecimal("8000"))), CreditoEnum.ENTRE_1000_1500);
-		tabularData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("Ariel", 33, 'F', EstadoCivilEnum.VIUVA.getId(), EstadoBrasilEnum.SP, 0, new BigDecimal("10000"))), CreditoEnum.SUPERIOR_2000);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("53998266070", "Lucas", 28, 'M', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SC, 0, new BigDecimal("2500"))), CreditoEnum.ENTRE_500_1000);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("01741673003", "Ana", 17, 'F', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SP, 0, new BigDecimal("1000"))), CreditoEnum.ENTRE_100_500);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("82414048085", "Pedro", 68, 'M', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.SC, 3, new BigDecimal("8000"))), CreditoEnum.ENTRE_1500_2000);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("37326384053", "Paula", 61, 'F', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.RJ, 3, new BigDecimal("5000"))), CreditoEnum.ENTRE_1000_1500);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("43673987062", "João", 56, 'M', EstadoCivilEnum.DIVORCIADO.getId(), EstadoBrasilEnum.RJ, 2, new BigDecimal("2000"))), CreditoEnum.REPROVADO);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("14375030046", "Maria", 45, 'F', EstadoCivilEnum.DIVORCIADO.getId(), EstadoBrasilEnum.SP, 1, new BigDecimal("2000"))), CreditoEnum.REPROVADO);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("49663203056", "José", 30, 'M', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.MA, 2, new BigDecimal("8000"))), CreditoEnum.SUPERIOR_2000);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("21139285076", "Dinae", 33, 'F', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.SP, 1, new BigDecimal("10000"))), CreditoEnum.SUPERIOR_2000);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("56258968015", "Marcos", 19, 'M', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SC, 1, new BigDecimal("400"))), CreditoEnum.RENDA_BAIXA);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("36434378033", "Suzan", 63, 'F', EstadoCivilEnum.VIUVA.getId(), EstadoBrasilEnum.MA, 3, new BigDecimal("1500"))), CreditoEnum.REPROVADO);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("69414782095", "Luci", 28, 'F', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SC, 2, new BigDecimal("2500"))), CreditoEnum.ENTRE_100_500);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("03894632054", "Roberto", 16, 'M', EstadoCivilEnum.SOLTEIRO.getId(), EstadoBrasilEnum.SP, 0, new BigDecimal("500"))), CreditoEnum.RENDA_BAIXA);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("69075758090", "Bruno", 30, 'M', EstadoCivilEnum.CASADO.getId(), EstadoBrasilEnum.MA, 5, new BigDecimal("8000"))), CreditoEnum.ENTRE_1000_1500);
+		tabularTestData.put(PessoaBusiness.convert(new PessoaRestCadastroAnaliseCreditoDTO("95099832091", "Ariel", 33, 'F', EstadoCivilEnum.VIUVA.getId(), EstadoBrasilEnum.SP, 0, new BigDecimal("10000"))), CreditoEnum.SUPERIOR_2000);
 	}
 
-	// @Test
+	@Test
 	public void testeConvertRest() {
 
 		PessoaRestCadastroAnaliseCreditoDTO dto = new PessoaRestCadastroAnaliseCreditoDTO();
 		dto.setNome("Nome");
+		dto.setCpf("21691702005");
 		dto.setIdade(18);
 		dto.setSexo('M');
 		dto.setEstadoCivilId(1L);
@@ -74,9 +71,12 @@ public class PessoaBusinessTest extends BaseTest<PessoaBusiness> {
 	@Test
 	public void testeCalculoCredito() {
 		int i = 1;
-		for (Map.Entry<Pessoa, CreditoEnum> item : tabularData.entrySet()) {
+		for (Map.Entry<Pessoa, CreditoEnum> item : tabularTestData.entrySet()) {
 			Pessoa pessoa = PessoaBusiness.calcularCredito(item.getKey());
-			Assert.assertEquals(String.format("%s - Falha na pessoa: '%s - %s'", i, item.getKey().getNome(), item.getKey().getLimiteCredito()), CreditoEnum.getById(item.getValue().getId()), CreditoEnum.getById(pessoa.getCredito().getId()));
+			CreditoEnum esperado = CreditoEnum.getById(item.getValue().getId());
+			CreditoEnum atual = CreditoEnum.getById(pessoa.getCredito().getId());
+			String mensagem = String.format("%s - Falha na pessoa: '%s - %s'", i, item.getKey().getNome(), item.getKey().getLimiteCredito());
+			Assert.assertEquals(mensagem, esperado, atual);
 			i++;
 		}
 	}

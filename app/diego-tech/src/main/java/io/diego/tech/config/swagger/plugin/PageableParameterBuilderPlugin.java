@@ -2,7 +2,6 @@ package io.diego.tech.config.swagger.plugin;
 
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
-import com.google.common.base.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -20,6 +19,7 @@ import springfox.documentation.swagger.common.SwaggerPluginSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static springfox.documentation.schema.ResolvedTypes.modelRefFactory;
 import static springfox.documentation.spi.schema.contexts.ModelContext.inputParam;

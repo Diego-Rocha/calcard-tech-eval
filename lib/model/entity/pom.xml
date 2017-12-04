@@ -52,66 +52,71 @@
 
 	<build>
 		<plugins>
-			<!-- @TODO ativar plugin tbm para o pacote 'validator'  -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.9</version>
-				<executions>
-					<execution>
-						<id>default-prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<rules>
-						<rule>
-							<!-- @TODO mudar para validação por classe -->
-							<element>BUNDLE</element>
-							<!--<element>CLASS</element>-->
-							<limits>
-								<limit>
-									<counter>INSTRUCTION</counter>
-									<value>COVEREDRATIO</value>
-									<!-- @TODO subir metrica de cobertura periodicamente até chegar em 75% (0.75) -->
-									<minimum>0.75</minimum>
-								</limit>
-							</limits>
-						</rule>
-						<rule>
-							<element>METHOD</element>
-							<limits>
-								<limit>
-									<counter>COMPLEXITY</counter>
-									<value>TOTALCOUNT</value>
-									<maximum>20</maximum>
-								</limit>
-							</limits>
-						</rule>
-					</rules>
-					<includes>
-						<!-- for report goal -->
-						<include>io/diego/tech/business/*</include>
-						<!-- for check goal -->
-						<include>io.diego.tech.business.*</include>
-					</includes>
-				</configuration>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.jacoco</groupId>-->
+				<!--<artifactId>jacoco-maven-plugin</artifactId>-->
+			<!--</plugin>-->
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- @TODO ativar plugin tbm para o pacote 'validator'  -->
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.7.9</version>
+					<executions>
+						<execution>
+							<id>default-prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>report</id>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>check</id>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<rules>
+							<rule>
+								<element>BUNDLE</element>
+								<limits>
+									<limit>
+										<counter>INSTRUCTION</counter>
+										<value>COVEREDRATIO</value>
+										<minimum>0.75</minimum>
+									</limit>
+								</limits>
+							</rule>
+							<rule>
+								<element>METHOD</element>
+								<limits>
+									<limit>
+										<counter>COMPLEXITY</counter>
+										<value>TOTALCOUNT</value>
+										<maximum>20</maximum>
+									</limit>
+								</limits>
+							</rule>
+						</rules>
+						<includes>
+							<!-- for report goal -->
+							<include>io/diego/tech/business/*</include>
+							<!-- for check goal -->
+							<include>io.diego.tech.business.*</include>
+						</includes>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 </project>

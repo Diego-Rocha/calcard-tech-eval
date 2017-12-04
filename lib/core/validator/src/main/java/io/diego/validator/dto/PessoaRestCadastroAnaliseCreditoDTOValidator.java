@@ -16,6 +16,7 @@ public class PessoaRestCadastroAnaliseCreditoDTOValidator extends Validator<Pess
 
 			{
 				add(getNewRequiredField("nome"));
+				add(getNewRequiredField("cpf"));
 				add(getNewRequiredField("idade"));
 				add(getNewRequiredField("sexo"));
 				add(getNewRequiredField("estadoCivilId"));

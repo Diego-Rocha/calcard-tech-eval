@@ -44,7 +44,6 @@ public class WebConfig extends ResponseEntityExceptionHandler {
 
 	private ObjectMapper jacksonObjectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
-		// mapper.enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
 		mapper.setDateFormat(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"));
 		return mapper;
 	}

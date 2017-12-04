@@ -9,7 +9,7 @@ TERMINAL_SIZE=$(tput cols)
 
 if [ "${TERMINAL_SIZE}" -ge "${BANNER_SIZE}" ]; then
 	echo ${ColorRed}
-	cat lib/common-resources/src/main/resources/banner.txt
+	tail -n +2 lib/common-resources/src/main/resources/banner.txt | head -n -1
 	echo ${ColorOff}
 fi
 

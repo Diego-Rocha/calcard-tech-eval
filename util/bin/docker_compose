@@ -82,14 +82,13 @@ docker_pre_up(){
 	fi
 
 	if [[ ${SERVICES} =~ .*rest.* || ${SERVICES} == '' ]]; then
-		cp ./app/target/diego-tech-rest-server.jar \
-			./util/docker/volume/springboot_entrypoint/jar/rest.jar
+		cp ./app/diego-tech/target/diego-tech-server.jar \
+			./util/docker/volume/springboot_entrypoint/jar/diego-tech.jar
 	fi
 
 	grep -q -F '#INIT diego-tech#' /etc/hosts || echo '
 #INIT diego-tech#
 127.0.0.1       rest.localhost
-127.0.0.1       jsf.localhost
 #END diego-tech#' | sudo tee -a /etc/hosts > /dev/null
 }
 

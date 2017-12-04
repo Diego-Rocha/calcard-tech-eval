@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class PessoaRestCadastroAnaliseCreditoDTO {
 
+	private String cpf;
 	private String nome;
 	private int idade;
 	private char sexo;
