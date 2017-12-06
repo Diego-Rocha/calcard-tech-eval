@@ -2,7 +2,7 @@ package io.diego.validator.dto;
 
 import io.diego.lib.spring.validator.RequiredField;
 import io.diego.lib.spring.validator.Validator;
-import io.diego.tech.dto.PessoaRestCadastroAnaliseCreditoDTO;
+import io.diego.tech.dto.pessoa.PessoaRestCadastroAnaliseCreditoDTO;
 import org.springframework.validation.Errors;
 
 import java.util.Collection;

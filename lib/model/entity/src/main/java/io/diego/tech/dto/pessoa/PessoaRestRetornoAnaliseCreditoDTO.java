@@ -1,4 +1,4 @@
-package io.diego.tech.dto;
+package io.diego.tech.dto.pessoa;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;

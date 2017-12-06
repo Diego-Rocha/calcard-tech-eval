@@ -1,7 +1,6 @@
 package io.diego.tech.business;
 
-import io.diego.tech.dto.PessoaRestCadastroAnaliseCreditoDTO;
-import io.diego.tech.dto.PessoaRestRetornoAnaliseCreditoDTO;
+import io.diego.tech.dto.pessoa.PessoaRestCadastroAnaliseCreditoDTO;
 import io.diego.tech.enums.CreditoEnum;
 import io.diego.tech.enums.EstadoCivilEnum;
 import io.diego.tech.model.Credito;

@@ -1,4 +1,4 @@
-package io.diego.tech.dto;
+package io.diego.tech.dto.pessoa;
 
 import io.diego.tech.enums.EstadoBrasilEnum;
 import lombok.*;

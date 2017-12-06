@@ -61,6 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		if (!isAmbienteProducao) {
 			authRules.antMatchers("/webjars/springfox-swagger-ui/**", "/swagger-ui.html", "/swagger-resources/**", "/v2/api-docs").permitAll();
 		}
+		authRules.antMatchers("/js/**", "/css/**").permitAll();
+		authRules.antMatchers("/favicon.ico").permitAll();
 		authRules.antMatchers(String.format("%s/**", appPublicPath)).permitAll();
 		authRules.antMatchers("/").permitAll();
 	}

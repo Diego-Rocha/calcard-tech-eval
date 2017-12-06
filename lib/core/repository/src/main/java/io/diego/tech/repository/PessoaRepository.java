@@ -2,10 +2,9 @@ package io.diego.tech.repository;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import io.diego.lib.spring.data.service.generic.repository.GenericRepository;
-import io.diego.tech.dto.PessoaRestRetornoAnaliseCreditoDTO;
-import io.diego.tech.dto.QPessoaRestRetornoAnaliseCreditoDTO;
+import io.diego.tech.dto.pessoa.PessoaRestRetornoAnaliseCreditoDTO;
+import io.diego.tech.dto.pessoa.QPessoaRestRetornoAnaliseCreditoDTO;
 import io.diego.tech.model.Pessoa;
-import io.diego.tech.model.QCredito;
 import org.springframework.stereotype.Repository;
 
 import static io.diego.tech.model.QCredito.credito;
@@ -22,5 +21,7 @@ public interface PessoaRepository extends GenericRepository<Pessoa, Long> {
 		query.where(pessoa.cpf.eq(cpf));
 		return query.fetchFirst();
 	}
+
+	boolean existsByCpf(String cpf);
 
 }

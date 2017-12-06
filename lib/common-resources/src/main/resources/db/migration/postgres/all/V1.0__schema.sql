@@ -18,7 +18,7 @@ CREATE TABLE credito (
 CREATE TABLE pessoa (
   id              BIGSERIAL,
   nome            VARCHAR(255)                                                    NOT NULL,
-  cpf             VARCHAR(14)                                                     NOT NULL,
+  cpf             VARCHAR(11)                                                     NOT NULL,
   idade           INTEGER CHECK (idade BETWEEN 1 AND 200)                         NOT NULL,
   sexo            CHAR(1) CHECK (sexo IN ('M', 'F'))                              NOT NULL DEFAULT 'M',
   estado_civil_id BIGINT                                                          NOT NULL,

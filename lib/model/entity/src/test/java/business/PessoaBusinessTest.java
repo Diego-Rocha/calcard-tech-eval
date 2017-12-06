@@ -2,7 +2,7 @@ package business;
 
 import business.base.BaseTest;
 import io.diego.tech.business.PessoaBusiness;
-import io.diego.tech.dto.PessoaRestCadastroAnaliseCreditoDTO;
+import io.diego.tech.dto.pessoa.PessoaRestCadastroAnaliseCreditoDTO;
 import io.diego.tech.enums.CreditoEnum;
 import io.diego.tech.enums.EstadoBrasilEnum;
 import io.diego.tech.enums.EstadoCivilEnum;

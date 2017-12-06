@@ -23,14 +23,10 @@
 			<groupId>io.diego.lib</groupId>
             <artifactId>validator</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>br.com.caelum.stella</groupId>-->
-            <!--<artifactId>caelum-stella-core</artifactId>-->
-        <!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>commons-validator</groupId>-->
-			<!--<artifactId>commons-validator</artifactId>-->
-		<!--</dependency>-->
+        <dependency>
+            <groupId>br.com.caelum.stella</groupId>
+            <artifactId>caelum-stella-core</artifactId>
+        </dependency>
     </dependencies>
 
 

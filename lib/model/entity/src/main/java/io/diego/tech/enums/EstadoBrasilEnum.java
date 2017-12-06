@@ -9,9 +9,9 @@ public enum EstadoBrasilEnum {
 
 	AC("Acre"),
 	AL("Alagoas"),
+	AM("Amazonas"),
 	AP("Amapá"),
 	BA("Bahia"),
-	AM("Amazonas"),
 	CE("Ceará"),
 	DF("Distrito Federal"),
 	ES("Espírito Santo"),
@@ -20,20 +20,20 @@ public enum EstadoBrasilEnum {
 	MG("Minas Gerais"),
 	MS("Mato Grosso do Sul"),
 	MT("Mato Grosso"),
-	RR("Roraima"),
-	RO("Rondônia"),
-	RN("Rio Grande do Norte"),
-	SE("Sergipe"),
-	SC("Santa Catarina"),
-	SP("São Paulo"),
 	PA("Pará"),
-	PI("Piauí"),
 	PB("Paraíba"),
 	PE("Pernambuco"),
+	PI("Piauí"),
 	PR("Paraná"),
-	TO("Tocantins"),
 	RJ("Rio de Janeiro"),
-	RS("Rio Grande do Sul");
+	RN("Rio Grande do Norte"),
+	RO("Rondônia"),
+	RR("Roraima"),
+	RS("Rio Grande do Sul"),
+	SC("Santa Catarina"),
+	SE("Sergipe"),
+	SP("São Paulo"),
+	TO("Tocantins");
 
 	private final String nome;
 }
